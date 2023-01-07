@@ -127,6 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# idea
+.idea/
+
+# project specific
 /resources/geckodriver
 /resources/chromedriver
 /data/
