@@ -1,11 +1,10 @@
-import os
-
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
 import constants
 
-FILE_PATH = f'{constants.DATA_DIRECTORY_PATH}df_raw_data_rows.csv'
+RAW_ADDRESS_ROWS_DATA = constants.RAW_ADDRESS_ROWS_DATA
+
 
 
 def extract_adress_rows(html):
@@ -19,6 +18,9 @@ def extract_adress_rows(html):
         for td in tr.find_all('td'):
             if td.find('address'):
                 has_address_tag = True
+                link = td.find('a', href=True)
+                if(link):
+                    cells.append([link['href']])
             cells.append(split_string_by_regex(td.text.strip()))
 
         if has_address_tag:
@@ -38,8 +40,8 @@ def extract_hospitals(input_file):
     with open(input_file, 'r') as base_search_source:
         rows = extract_adress_rows(base_search_source)
         df: pd.DataFrame = pd.DataFrame(rows)
-        df.to_csv(FILE_PATH)
+        df.to_csv(RAW_ADDRESS_ROWS_DATA)
 
 
 if __name__ == "__main__":
-    os.makedirs(os.path.dirname(FILE_PATH), exist_ok=True)
+    extract_hospitals(constants.RAW_HOSPITAL_ADDRESS_DATA)

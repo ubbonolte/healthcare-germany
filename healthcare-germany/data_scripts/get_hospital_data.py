@@ -8,8 +8,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import constants
 
-BASE_URL = 'https://dkgev.deutsches-krankenhaus-verzeichnis.de/app/suche'
-FILE_PATH = f'{constants.DATA_DIRECTORY_PATH}base_search_source.html'
+BASE_URL = constants.BASE_URL
+RAW_HOSPITAL_ADDRESS_DATA = constants.RAW_HOSPITAL_ADDRESS_DATA
 
 
 def get_base_data_from_website():
@@ -39,10 +39,10 @@ def get_base_data_from_website():
         time.sleep(30)
 
         # Save file
-        with open(FILE_PATH, 'w') as f:
+        with open(RAW_HOSPITAL_ADDRESS_DATA, 'w') as f:
             f.write(driver.page_source)
 
 
 if __name__ == "__main__":
-    os.makedirs(os.path.dirname(FILE_PATH), exist_ok=True)
+    os.makedirs(os.path.dirname(RAW_HOSPITAL_ADDRESS_DATA), exist_ok=True)
     get_base_data_from_website()
